@@ -2,7 +2,7 @@
 
 This repository now includes a reinforcement learning (RL) interface to ARGoS that removes the NEAT/GA dependency in the simulation loop and exposes a Python API through pybind11. The RL environment treats ARGoS as a step-able simulator that returns observations, rewards, and termination/truncation signals.
 
-### What changed and why
+### What changed and wh
 
 - `argos/source/iAnt_controller.cpp` and `argos/source/iAnt_controller.h`
   - Removed all NEAT/GA neural-network logic and dependencies.

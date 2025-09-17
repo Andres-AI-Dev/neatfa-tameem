@@ -1,7 +1,8 @@
 import os, sys
 
 # Point to argos/build so Python can import the module
-ARGOS_DIR = "/home/tameem/Tameem-Work/neatfa-tameem/argos"
+ARGOS_DIR = os.path.join(os.path.dirname(__file__), "..", "argos")
+ARGOS_DIR = os.path.abspath(ARGOS_DIR)
 sys.path.append(os.path.join(ARGOS_DIR, "build"))
 
 import iant_rl

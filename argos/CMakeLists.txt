@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.5)
 project(iAnt-ARGoS)
 
 # Deactivate RPATH for MacOSX.
@@ -8,6 +8,7 @@ set(CMAKE_MACOSX_RPATH 0)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
 # Find the ARGoS package.
+set(ARGOS_CMAKE_DIR "/opt/homebrew/share/argos3/cmake")
 find_package(ARGoS REQUIRED)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ARGOS_PREFIX}/share/argos3/cmake)
 
@@ -24,7 +25,7 @@ find_package(Lua REQUIRED)
 include_directories(${CMAKE_SOURCE_DIR} ${ARGOS_INCLUDE_DIRS} ${GSL_INCLUDE_DIR} ${LUA_INCLUDE_DIR})
 
 # Set ARGoS link directory.
-link_directories(/usr/lib/argos3)
+link_directories(/opt/homebrew/lib/argos3)
 link_libraries(${ARGOS_LDFLAGS})
 
 # Descend into the source code directory.

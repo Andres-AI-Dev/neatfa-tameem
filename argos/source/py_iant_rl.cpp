@@ -8,7 +8,7 @@ namespace py = pybind11;
 
 class IAntRLEnv {
 public:
-    explicit IAntRLEnv(const std::string& xml_path, bool force_no_viz = true)
+    explicit IAntRLEnv(const std::string& xml_path, bool force_no_viz = false)
         : m_xml_path(xml_path), m_initialized(false), m_prev_fitness(0.0), m_force_no_viz(force_no_viz) {}
 
     std::vector<argos::Real> reset() {
