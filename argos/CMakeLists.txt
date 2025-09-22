@@ -21,11 +21,15 @@ find_package(GSL REQUIRED)
 # Find the LUA package.
 find_package(Lua REQUIRED)
 
+# Find jsoncpp
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(JSONCPP REQUIRED jsoncpp)
+
 # Set ARGoS include directory.
-include_directories(${CMAKE_SOURCE_DIR} ${ARGOS_INCLUDE_DIRS} ${GSL_INCLUDE_DIR} ${LUA_INCLUDE_DIR})
+include_directories(${CMAKE_SOURCE_DIR} ${ARGOS_INCLUDE_DIRS} ${GSL_INCLUDE_DIR} ${LUA_INCLUDE_DIR} ${JSONCPP_INCLUDE_DIRS})
 
 # Set ARGoS link directory.
-link_directories(/opt/homebrew/lib/argos3)
+link_directories(/opt/homebrew/lib/argos3 ${JSONCPP_LIBRARY_DIRS})
 link_libraries(${ARGOS_LDFLAGS})
 
 # Descend into the source code directory.

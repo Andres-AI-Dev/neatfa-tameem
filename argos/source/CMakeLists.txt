@@ -8,6 +8,13 @@ add_library(iAnt_controller     SHARED iAnt_controller.h
                                     iAnt_pheromone.h
                                     iAnt_pheromone.cpp)
 
+add_library(iAnt_rl_controller  SHARED iAnt_rl_controller.h
+                                    iAnt_rl_controller.cpp
+                                    iAnt_controller.h
+                                    iAnt_controller.cpp
+                                    iAnt_pheromone.h
+                                    iAnt_pheromone.cpp)
+
 add_library(iAnt_loop_functions SHARED iAnt_loop_functions.h
                                     iAnt_loop_functions.cpp
                                     iAnt_controller.h
@@ -32,6 +39,13 @@ target_link_libraries(iAnt_controller
                       argos3plugin_simulator_footbot
                       argos3plugin_simulator_genericrobot)
 
+target_link_libraries(iAnt_rl_controller
+                      argos3core_simulator
+                      argos3plugin_simulator_entities
+                      argos3plugin_simulator_footbot
+                      argos3plugin_simulator_genericrobot
+                      ${JSONCPP_LIBRARIES})
+
 target_link_libraries(iAnt_loop_functions
                       argos3core_simulator
                       argos3plugin_simulator_entities
@@ -45,6 +59,6 @@ target_link_libraries(iant_main
         argos3core_simulator
         )
 
-install(TARGETS iAnt_controller iAnt_loop_functions iant_main
+install(TARGETS iAnt_controller iAnt_rl_controller iAnt_loop_functions iant_main
         LIBRARY DESTINATION lib
         RUNTIME DESTINATION bin)

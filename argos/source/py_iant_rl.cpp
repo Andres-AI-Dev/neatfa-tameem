@@ -2,6 +2,7 @@
 #include <pybind11/stl.h>
 
 #include <argos3/core/simulator/simulator.h>
+#include <argos3/core/simulator/visualization/visualization.h>
 #include "iAnt_loop_functions.h"
 
 namespace py = pybind11;
@@ -12,6 +13,9 @@ public:
         : m_xml_path(xml_path), m_initialized(false), m_prev_fitness(0.0), m_force_no_viz(force_no_viz) {}
 
     std::vector<argos::Real> reset() {
+        // Release GIL to allow Qt visualization to run
+        py::gil_scoped_release release;
+        
         auto& sim = argos::CSimulator::GetInstance();
         if (!m_initialized) {
             sim.SetExperimentFileName(m_xml_path);
@@ -24,10 +28,16 @@ public:
 
         auto& lf = static_cast<iAnt_loop_functions&>(sim.GetLoopFunctions());
         m_prev_fitness = lf.getFitness();
+        
+        // Re-acquire GIL before returning Python objects
+        py::gil_scoped_acquire acquire;
         return lf.RLGetObservation();
     }
 
     py::tuple step(argos::Real left_speed, argos::Real right_speed, bool lay_pheromone) {
+        // Release GIL to allow Qt visualization to run during simulation
+        py::gil_scoped_release release;
+        
         auto& sim = argos::CSimulator::GetInstance();
         auto& lf = static_cast<iAnt_loop_functions&>(sim.GetLoopFunctions());
 
@@ -40,6 +50,9 @@ public:
         m_prev_fitness = fitness;
         bool terminated = lf.RLTerminated();
         bool truncated = lf.RLTruncated();
+        
+        // Re-acquire GIL before creating Python objects
+        py::gil_scoped_acquire acquire;
         py::dict info;
         info["sim_time"] = lf.GetSimTime();
         info["max_sim_time"] = lf.GetMaxSimTime();
@@ -49,6 +62,8 @@ public:
     }
 
     void close() {
+        // Release GIL during cleanup
+        py::gil_scoped_release release;
         auto& sim = argos::CSimulator::GetInstance();
         if (m_initialized) {
             sim.Destroy();
