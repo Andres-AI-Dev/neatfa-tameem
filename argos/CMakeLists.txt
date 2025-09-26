@@ -8,12 +8,16 @@ set(CMAKE_MACOSX_RPATH 0)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
 # Find the ARGoS package.
-set(ARGOS_CMAKE_DIR "/opt/homebrew/share/argos3/cmake")
-find_package(ARGoS REQUIRED)
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ARGOS_PREFIX}/share/argos3/cmake)
+find_package(PkgConfig)
+pkg_check_modules(ARGOS REQUIRED argos3_simulator)
+include_directories(${ARGOS_INCLUDE_DIRS})
+link_directories(${ARGOS_LIBRARY_DIRS})
+set(ARGOS_LIBS ${ARGOS_LIBRARIES})
 
-# Check for required libraries to compile code depending on Qt and OpenGL.
-include(FindARGoSQTOpenGL)
+# Check for Qt5
+find_package(Qt5 COMPONENTS Core Widgets Gui OpenGL REQUIRED)
+set(CMAKE_AUTOMOC ON)
+include_directories(${Qt5Core_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS} ${Qt5Gui_INCLUDE_DIRS} ${Qt5OpenGL_INCLUDE_DIRS})
 
 # Find the GSL package.
 find_package(GSL REQUIRED)
@@ -29,7 +33,7 @@ pkg_check_modules(JSONCPP REQUIRED jsoncpp)
 include_directories(${CMAKE_SOURCE_DIR} ${ARGOS_INCLUDE_DIRS} ${GSL_INCLUDE_DIR} ${LUA_INCLUDE_DIR} ${JSONCPP_INCLUDE_DIRS})
 
 # Set ARGoS link directory.
-link_directories(/opt/homebrew/lib/argos3 ${JSONCPP_LIBRARY_DIRS})
+link_directories(/usr/local/lib/argos3 ${JSONCPP_LIBRARY_DIRS})
 link_libraries(${ARGOS_LDFLAGS})
 
 # Descend into the source code directory.
