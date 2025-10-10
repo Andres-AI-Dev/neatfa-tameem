@@ -1,0 +1,73 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/gctronic/e-puck/protos/E-puck.proto"
+
+WorldInfo {
+  title "AprilTag Collection Test"
+  basicTimeStep 32
+}
+
+Viewpoint {
+  orientation -0.25 0.25 0.935 1.2
+  position 0.5 -0.5 0.6
+  follow "collector_robot"
+}
+
+TexturedBackground {
+}
+
+TexturedBackgroundLight {
+}
+
+# Floor
+Solid {
+  name "floor"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.9 0.9 0.9
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 4 4 0.001
+      }
+    }
+  ]
+  boundingObject Box {
+    size 4 4 0.001
+  }
+}
+
+# Collectable AprilTag cube (no physics for phasing through)
+DEF APRILTAG_CUBE Solid {
+  translation 0.8 0 0.0275
+  name "collectable_apriltag"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url ["../textures/real_tag36h11_id0.png"]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.055 0.055 0.055  # 5.5cm cube
+      }
+    }
+  ]
+}
+
+# E-puck robot with supervisor privileges (to move the AprilTag)
+E-puck {
+  translation 0 0 0
+  name "collector_robot"
+  controller "apriltag_collector"
+  supervisor TRUE
+  camera_width 640
+  camera_height 480
+  camera_fieldOfView 1.0
+}

@@ -1,0 +1,1882 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/gctronic/e-puck/protos/E-puck.proto"
+
+WorldInfo {
+  title "AprilTag Distance Detection Test"
+  basicTimeStep 32
+}
+
+Viewpoint {
+  orientation -0.5 0.5 0.7 1.2
+  position 0 -2 4
+}
+
+TexturedBackground {
+}
+
+TexturedBackgroundLight {
+}
+
+# Floor
+Solid {
+  name "floor"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.9 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 12 8 0.001
+      }
+    }
+  ]
+  boundingObject Box {
+    size 12 8 0.001
+  }
+}
+
+# Distance marker: 1.0m
+Solid {
+  translation -5.428571428571429 1.5 0.002
+  name "label_100cm"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.2 0.2 0.8
+        roughness 1
+        metalness 0
+        emissiveColor 0.1 0.1 0.4
+        emissiveIntensity 0.2
+      }
+      geometry Box {
+        size 0.15 0.05 0.001
+      }
+    }
+  ]
+}
+
+Solid {
+  translation -5.142857142857143 0 0.15
+  name "wall_right_0"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+E-puck {
+  translation -5.428571428571429 -3.5 0
+  rotation 0 0 1 1.5708
+  name "robot_lane_0"
+  controller "apriltag_distance_test"
+  supervisor TRUE
+  camera_width 640
+  camera_height 480
+  camera_fieldOfView 1.0
+}
+
+DEF APRILTAG_1 Solid {
+  translation -5.428571428571429 -2.5 0.0275
+  name "apriltag_1"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url ["../textures/real_tag36h11_id0.png"]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
+    }
+  ]
+}
+
+# Distance marker: 1.1m
+Solid {
+  translation -4.857142857142858 1.5 0.002
+  name "label_110cm"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.2 0.2 0.8
+        roughness 1
+        metalness 0
+        emissiveColor 0.1 0.1 0.4
+        emissiveIntensity 0.2
+      }
+      geometry Box {
+        size 0.15 0.05 0.001
+      }
+    }
+  ]
+}
+
+Solid {
+  translation -5.142857142857143 0 0.15
+  name "wall_left_1"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+Solid {
+  translation -4.571428571428572 0 0.15
+  name "wall_right_1"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+E-puck {
+  translation -4.857142857142858 -3.5 0
+  rotation 0 0 1 1.5708
+  name "robot_lane_1"
+  controller "apriltag_distance_test"
+  supervisor TRUE
+  camera_width 640
+  camera_height 480
+  camera_fieldOfView 1.0
+}
+
+DEF APRILTAG_2 Solid {
+  translation -4.857142857142858 -2.4 0.0275
+  name "apriltag_2"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url ["../textures/real_tag36h11_id0.png"]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
+    }
+  ]
+}
+
+# Distance marker: 1.2m
+Solid {
+  translation -4.2857142857142865 1.5 0.002
+  name "label_120cm"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.2 0.2 0.8
+        roughness 1
+        metalness 0
+        emissiveColor 0.1 0.1 0.4
+        emissiveIntensity 0.2
+      }
+      geometry Box {
+        size 0.15 0.05 0.001
+      }
+    }
+  ]
+}
+
+Solid {
+  translation -4.571428571428572 0 0.15
+  name "wall_left_2"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+Solid {
+  translation -4.000000000000001 0 0.15
+  name "wall_right_2"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+E-puck {
+  translation -4.2857142857142865 -3.5 0
+  rotation 0 0 1 1.5708
+  name "robot_lane_2"
+  controller "apriltag_distance_test"
+  supervisor TRUE
+  camera_width 640
+  camera_height 480
+  camera_fieldOfView 1.0
+}
+
+DEF APRILTAG_3 Solid {
+  translation -4.2857142857142865 -2.3 0.0275
+  name "apriltag_3"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url ["../textures/real_tag36h11_id0.png"]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
+    }
+  ]
+}
+
+# Distance marker: 1.3m
+Solid {
+  translation -3.7142857142857144 1.5 0.002
+  name "label_130cm"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.2 0.2 0.8
+        roughness 1
+        metalness 0
+        emissiveColor 0.1 0.1 0.4
+        emissiveIntensity 0.2
+      }
+      geometry Box {
+        size 0.15 0.05 0.001
+      }
+    }
+  ]
+}
+
+Solid {
+  translation -4.0 0 0.15
+  name "wall_left_3"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+Solid {
+  translation -3.428571428571429 0 0.15
+  name "wall_right_3"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+E-puck {
+  translation -3.7142857142857144 -3.5 0
+  rotation 0 0 1 1.5708
+  name "robot_lane_3"
+  controller "apriltag_distance_test"
+  supervisor TRUE
+  camera_width 640
+  camera_height 480
+  camera_fieldOfView 1.0
+}
+
+DEF APRILTAG_4 Solid {
+  translation -3.7142857142857144 -2.2 0.0275
+  name "apriltag_4"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url ["../textures/real_tag36h11_id0.png"]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
+    }
+  ]
+}
+
+# Distance marker: 1.4m
+Solid {
+  translation -3.1428571428571432 1.5 0.002
+  name "label_140cm"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.2 0.2 0.8
+        roughness 1
+        metalness 0
+        emissiveColor 0.1 0.1 0.4
+        emissiveIntensity 0.2
+      }
+      geometry Box {
+        size 0.15 0.05 0.001
+      }
+    }
+  ]
+}
+
+Solid {
+  translation -3.428571428571429 0 0.15
+  name "wall_left_4"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+Solid {
+  translation -2.8571428571428577 0 0.15
+  name "wall_right_4"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+E-puck {
+  translation -3.1428571428571432 -3.5 0
+  rotation 0 0 1 1.5708
+  name "robot_lane_4"
+  controller "apriltag_distance_test"
+  supervisor TRUE
+  camera_width 640
+  camera_height 480
+  camera_fieldOfView 1.0
+}
+
+DEF APRILTAG_5 Solid {
+  translation -3.1428571428571432 -2.1 0.0275
+  name "apriltag_5"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url ["../textures/real_tag36h11_id0.png"]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
+    }
+  ]
+}
+
+# Distance marker: 1.5m
+Solid {
+  translation -2.571428571428572 1.5 0.002
+  name "label_150cm"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.2 0.2 0.8
+        roughness 1
+        metalness 0
+        emissiveColor 0.1 0.1 0.4
+        emissiveIntensity 0.2
+      }
+      geometry Box {
+        size 0.15 0.05 0.001
+      }
+    }
+  ]
+}
+
+Solid {
+  translation -2.8571428571428577 0 0.15
+  name "wall_left_5"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+Solid {
+  translation -2.2857142857142865 0 0.15
+  name "wall_right_5"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+E-puck {
+  translation -2.571428571428572 -3.5 0
+  rotation 0 0 1 1.5708
+  name "robot_lane_5"
+  controller "apriltag_distance_test"
+  supervisor TRUE
+  camera_width 640
+  camera_height 480
+  camera_fieldOfView 1.0
+}
+
+DEF APRILTAG_6 Solid {
+  translation -2.571428571428572 -2.0 0.0275
+  name "apriltag_6"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url ["../textures/real_tag36h11_id0.png"]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
+    }
+  ]
+}
+
+# Distance marker: 1.6m
+Solid {
+  translation -2.0000000000000004 1.5 0.002
+  name "label_160cm"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.2 0.2 0.8
+        roughness 1
+        metalness 0
+        emissiveColor 0.1 0.1 0.4
+        emissiveIntensity 0.2
+      }
+      geometry Box {
+        size 0.15 0.05 0.001
+      }
+    }
+  ]
+}
+
+Solid {
+  translation -2.285714285714286 0 0.15
+  name "wall_left_6"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+Solid {
+  translation -1.7142857142857149 0 0.15
+  name "wall_right_6"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+E-puck {
+  translation -2.0000000000000004 -3.5 0
+  rotation 0 0 1 1.5708
+  name "robot_lane_6"
+  controller "apriltag_distance_test"
+  supervisor TRUE
+  camera_width 640
+  camera_height 480
+  camera_fieldOfView 1.0
+}
+
+DEF APRILTAG_7 Solid {
+  translation -2.0000000000000004 -1.9 0.0275
+  name "apriltag_7"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url ["../textures/real_tag36h11_id0.png"]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
+    }
+  ]
+}
+
+# Distance marker: 1.7m
+Solid {
+  translation -1.4285714285714288 1.5 0.002
+  name "label_170cm"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.2 0.2 0.8
+        roughness 1
+        metalness 0
+        emissiveColor 0.1 0.1 0.4
+        emissiveIntensity 0.2
+      }
+      geometry Box {
+        size 0.15 0.05 0.001
+      }
+    }
+  ]
+}
+
+Solid {
+  translation -1.7142857142857144 0 0.15
+  name "wall_left_7"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+Solid {
+  translation -1.1428571428571432 0 0.15
+  name "wall_right_7"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+E-puck {
+  translation -1.4285714285714288 -3.5 0
+  rotation 0 0 1 1.5708
+  name "robot_lane_7"
+  controller "apriltag_distance_test"
+  supervisor TRUE
+  camera_width 640
+  camera_height 480
+  camera_fieldOfView 1.0
+}
+
+DEF APRILTAG_8 Solid {
+  translation -1.4285714285714288 -1.7999999999999998 0.0275
+  name "apriltag_8"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url ["../textures/real_tag36h11_id0.png"]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
+    }
+  ]
+}
+
+# Distance marker: 1.8m
+Solid {
+  translation -0.8571428571428577 1.5 0.002
+  name "label_180cm"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.2 0.2 0.8
+        roughness 1
+        metalness 0
+        emissiveColor 0.1 0.1 0.4
+        emissiveIntensity 0.2
+      }
+      geometry Box {
+        size 0.15 0.05 0.001
+      }
+    }
+  ]
+}
+
+Solid {
+  translation -1.1428571428571432 0 0.15
+  name "wall_left_8"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+Solid {
+  translation -0.571428571428572 0 0.15
+  name "wall_right_8"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+E-puck {
+  translation -0.8571428571428577 -3.5 0
+  rotation 0 0 1 1.5708
+  name "robot_lane_8"
+  controller "apriltag_distance_test"
+  supervisor TRUE
+  camera_width 640
+  camera_height 480
+  camera_fieldOfView 1.0
+}
+
+DEF APRILTAG_9 Solid {
+  translation -0.8571428571428577 -1.7 0.0275
+  name "apriltag_9"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url ["../textures/real_tag36h11_id0.png"]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
+    }
+  ]
+}
+
+# Distance marker: 1.9m
+Solid {
+  translation -0.2857142857142865 1.5 0.002
+  name "label_190cm"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.2 0.2 0.8
+        roughness 1
+        metalness 0
+        emissiveColor 0.1 0.1 0.4
+        emissiveIntensity 0.2
+      }
+      geometry Box {
+        size 0.15 0.05 0.001
+      }
+    }
+  ]
+}
+
+Solid {
+  translation -0.5714285714285722 0 0.15
+  name "wall_left_9"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+Solid {
+  translation -7.771561172376096e-16 0 0.15
+  name "wall_right_9"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+E-puck {
+  translation -0.2857142857142865 -3.5 0
+  rotation 0 0 1 1.5708
+  name "robot_lane_9"
+  controller "apriltag_distance_test"
+  supervisor TRUE
+  camera_width 640
+  camera_height 480
+  camera_fieldOfView 1.0
+}
+
+DEF APRILTAG_10 Solid {
+  translation -0.2857142857142865 -1.6 0.0275
+  name "apriltag_10"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url ["../textures/real_tag36h11_id0.png"]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
+    }
+  ]
+}
+
+# Distance marker: 2.0m
+Solid {
+  translation 0.2857142857142847 1.5 0.002
+  name "label_200cm"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.2 0.2 0.8
+        roughness 1
+        metalness 0
+        emissiveColor 0.1 0.1 0.4
+        emissiveIntensity 0.2
+      }
+      geometry Box {
+        size 0.15 0.05 0.001
+      }
+    }
+  ]
+}
+
+Solid {
+  translation -9.992007221626409e-16 0 0.15
+  name "wall_left_10"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+Solid {
+  translation 0.5714285714285704 0 0.15
+  name "wall_right_10"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+E-puck {
+  translation 0.2857142857142847 -3.5 0
+  rotation 0 0 1 1.5708
+  name "robot_lane_10"
+  controller "apriltag_distance_test"
+  supervisor TRUE
+  camera_width 640
+  camera_height 480
+  camera_fieldOfView 1.0
+}
+
+DEF APRILTAG_11 Solid {
+  translation 0.2857142857142847 -1.5 0.0275
+  name "apriltag_11"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url ["../textures/real_tag36h11_id0.png"]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
+    }
+  ]
+}
+
+# Distance marker: 2.1m
+Solid {
+  translation 0.8571428571428568 1.5 0.002
+  name "label_210cm"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.2 0.2 0.8
+        roughness 1
+        metalness 0
+        emissiveColor 0.1 0.1 0.4
+        emissiveIntensity 0.2
+      }
+      geometry Box {
+        size 0.15 0.05 0.001
+      }
+    }
+  ]
+}
+
+Solid {
+  translation 0.5714285714285711 0 0.15
+  name "wall_left_11"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+Solid {
+  translation 1.1428571428571423 0 0.15
+  name "wall_right_11"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+E-puck {
+  translation 0.8571428571428568 -3.5 0
+  rotation 0 0 1 1.5708
+  name "robot_lane_11"
+  controller "apriltag_distance_test"
+  supervisor TRUE
+  camera_width 640
+  camera_height 480
+  camera_fieldOfView 1.0
+}
+
+DEF APRILTAG_12 Solid {
+  translation 0.8571428571428568 -1.4 0.0275
+  name "apriltag_12"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url ["../textures/real_tag36h11_id0.png"]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
+    }
+  ]
+}
+
+# Distance marker: 2.2m
+Solid {
+  translation 1.428571428571428 1.5 0.002
+  name "label_220cm"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.2 0.2 0.8
+        roughness 1
+        metalness 0
+        emissiveColor 0.1 0.1 0.4
+        emissiveIntensity 0.2
+      }
+      geometry Box {
+        size 0.15 0.05 0.001
+      }
+    }
+  ]
+}
+
+Solid {
+  translation 1.1428571428571423 0 0.15
+  name "wall_left_12"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+Solid {
+  translation 1.7142857142857135 0 0.15
+  name "wall_right_12"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+E-puck {
+  translation 1.428571428571428 -3.5 0
+  rotation 0 0 1 1.5708
+  name "robot_lane_12"
+  controller "apriltag_distance_test"
+  supervisor TRUE
+  camera_width 640
+  camera_height 480
+  camera_fieldOfView 1.0
+}
+
+DEF APRILTAG_13 Solid {
+  translation 1.428571428571428 -1.2999999999999998 0.0275
+  name "apriltag_13"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url ["../textures/real_tag36h11_id0.png"]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
+    }
+  ]
+}
+
+# Distance marker: 2.3m
+Solid {
+  translation 1.9999999999999991 1.5 0.002
+  name "label_229cm"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.2 0.2 0.8
+        roughness 1
+        metalness 0
+        emissiveColor 0.1 0.1 0.4
+        emissiveIntensity 0.2
+      }
+      geometry Box {
+        size 0.15 0.05 0.001
+      }
+    }
+  ]
+}
+
+Solid {
+  translation 1.7142857142857135 0 0.15
+  name "wall_left_13"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+Solid {
+  translation 2.2857142857142847 0 0.15
+  name "wall_right_13"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+E-puck {
+  translation 1.9999999999999991 -3.5 0
+  rotation 0 0 1 1.5708
+  name "robot_lane_13"
+  controller "apriltag_distance_test"
+  supervisor TRUE
+  camera_width 640
+  camera_height 480
+  camera_fieldOfView 1.0
+}
+
+DEF APRILTAG_14 Solid {
+  translation 1.9999999999999991 -1.2000000000000002 0.0275
+  name "apriltag_14"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url ["../textures/real_tag36h11_id0.png"]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
+    }
+  ]
+}
+
+# Distance marker: 2.4m
+Solid {
+  translation 2.571428571428571 1.5 0.002
+  name "label_240cm"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.2 0.2 0.8
+        roughness 1
+        metalness 0
+        emissiveColor 0.1 0.1 0.4
+        emissiveIntensity 0.2
+      }
+      geometry Box {
+        size 0.15 0.05 0.001
+      }
+    }
+  ]
+}
+
+Solid {
+  translation 2.2857142857142856 0 0.15
+  name "wall_left_14"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+Solid {
+  translation 2.8571428571428568 0 0.15
+  name "wall_right_14"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+E-puck {
+  translation 2.571428571428571 -3.5 0
+  rotation 0 0 1 1.5708
+  name "robot_lane_14"
+  controller "apriltag_distance_test"
+  supervisor TRUE
+  camera_width 640
+  camera_height 480
+  camera_fieldOfView 1.0
+}
+
+DEF APRILTAG_15 Solid {
+  translation 2.571428571428571 -1.0999999999999996 0.0275
+  name "apriltag_15"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url ["../textures/real_tag36h11_id0.png"]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
+    }
+  ]
+}
+
+# Distance marker: 2.5m
+Solid {
+  translation 3.1428571428571423 1.5 0.002
+  name "label_250cm"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.2 0.2 0.8
+        roughness 1
+        metalness 0
+        emissiveColor 0.1 0.1 0.4
+        emissiveIntensity 0.2
+      }
+      geometry Box {
+        size 0.15 0.05 0.001
+      }
+    }
+  ]
+}
+
+Solid {
+  translation 2.8571428571428568 0 0.15
+  name "wall_left_15"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+Solid {
+  translation 3.428571428571428 0 0.15
+  name "wall_right_15"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+E-puck {
+  translation 3.1428571428571423 -3.5 0
+  rotation 0 0 1 1.5708
+  name "robot_lane_15"
+  controller "apriltag_distance_test"
+  supervisor TRUE
+  camera_width 640
+  camera_height 480
+  camera_fieldOfView 1.0
+}
+
+DEF APRILTAG_16 Solid {
+  translation 3.1428571428571423 -1.0 0.0275
+  name "apriltag_16"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url ["../textures/real_tag36h11_id0.png"]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
+    }
+  ]
+}
+
+# Distance marker: 2.6m
+Solid {
+  translation 3.7142857142857135 1.5 0.002
+  name "label_260cm"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.2 0.2 0.8
+        roughness 1
+        metalness 0
+        emissiveColor 0.1 0.1 0.4
+        emissiveIntensity 0.2
+      }
+      geometry Box {
+        size 0.15 0.05 0.001
+      }
+    }
+  ]
+}
+
+Solid {
+  translation 3.428571428571428 0 0.15
+  name "wall_left_16"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+Solid {
+  translation 3.999999999999999 0 0.15
+  name "wall_right_16"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+E-puck {
+  translation 3.7142857142857135 -3.5 0
+  rotation 0 0 1 1.5708
+  name "robot_lane_16"
+  controller "apriltag_distance_test"
+  supervisor TRUE
+  camera_width 640
+  camera_height 480
+  camera_fieldOfView 1.0
+}
+
+DEF APRILTAG_17 Solid {
+  translation 3.7142857142857135 -0.8999999999999999 0.0275
+  name "apriltag_17"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url ["../textures/real_tag36h11_id0.png"]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
+    }
+  ]
+}
+
+# Distance marker: 2.7m
+Solid {
+  translation 4.285714285714285 1.5 0.002
+  name "label_270cm"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.2 0.2 0.8
+        roughness 1
+        metalness 0
+        emissiveColor 0.1 0.1 0.4
+        emissiveIntensity 0.2
+      }
+      geometry Box {
+        size 0.15 0.05 0.001
+      }
+    }
+  ]
+}
+
+Solid {
+  translation 3.999999999999999 0 0.15
+  name "wall_left_17"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+Solid {
+  translation 4.57142857142857 0 0.15
+  name "wall_right_17"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+E-puck {
+  translation 4.285714285714285 -3.5 0
+  rotation 0 0 1 1.5708
+  name "robot_lane_17"
+  controller "apriltag_distance_test"
+  supervisor TRUE
+  camera_width 640
+  camera_height 480
+  camera_fieldOfView 1.0
+}
+
+DEF APRILTAG_18 Solid {
+  translation 4.285714285714285 -0.7999999999999998 0.0275
+  name "apriltag_18"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url ["../textures/real_tag36h11_id0.png"]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
+    }
+  ]
+}
+
+# Distance marker: 2.8m
+Solid {
+  translation 4.857142857142856 1.5 0.002
+  name "label_280cm"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.2 0.2 0.8
+        roughness 1
+        metalness 0
+        emissiveColor 0.1 0.1 0.4
+        emissiveIntensity 0.2
+      }
+      geometry Box {
+        size 0.15 0.05 0.001
+      }
+    }
+  ]
+}
+
+Solid {
+  translation 4.57142857142857 0 0.15
+  name "wall_left_18"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+Solid {
+  translation 5.1428571428571415 0 0.15
+  name "wall_right_18"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+E-puck {
+  translation 4.857142857142856 -3.5 0
+  rotation 0 0 1 1.5708
+  name "robot_lane_18"
+  controller "apriltag_distance_test"
+  supervisor TRUE
+  camera_width 640
+  camera_height 480
+  camera_fieldOfView 1.0
+}
+
+DEF APRILTAG_19 Solid {
+  translation 4.857142857142856 -0.7000000000000002 0.0275
+  name "apriltag_19"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url ["../textures/real_tag36h11_id0.png"]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
+    }
+  ]
+}
+
+# Distance marker: 2.9m
+Solid {
+  translation 5.428571428571427 1.5 0.002
+  name "label_290cm"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.2 0.2 0.8
+        roughness 1
+        metalness 0
+        emissiveColor 0.1 0.1 0.4
+        emissiveIntensity 0.2
+      }
+      geometry Box {
+        size 0.15 0.05 0.001
+      }
+    }
+  ]
+}
+
+Solid {
+  translation 5.1428571428571415 0 0.15
+  name "wall_left_19"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+E-puck {
+  translation 5.428571428571427 -3.5 0
+  rotation 0 0 1 1.5708
+  name "robot_lane_19"
+  controller "apriltag_distance_test"
+  supervisor TRUE
+  camera_width 640
+  camera_height 480
+  camera_fieldOfView 1.0
+}
+
+DEF APRILTAG_20 Solid {
+  translation 5.428571428571427 -0.5999999999999996 0.0275
+  name "apriltag_20"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url ["../textures/real_tag36h11_id0.png"]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
+    }
+  ]
+}
+
+Solid {
+  translation -6 0 0.15
+  name "wall_outer_left"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+Solid {
+  translation 6 0 0.15
+  name "wall_outer_right"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.03 7.0 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.03 7.0 0.3
+  }
+}
+
+Solid {
+  translation 0 -3.8 0.15
+  name "wall_back"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 12 0.03 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 12 0.03 0.3
+  }
+}
+
+Solid {
+  translation 0 2.4 0.15
+  name "wall_front"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.2 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 12 0.03 0.3
+      }
+    }
+  ]
+  boundingObject Box {
+    size 12 0.03 0.3
+  }
+}
+

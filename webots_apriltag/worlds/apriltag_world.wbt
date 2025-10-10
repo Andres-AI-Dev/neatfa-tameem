@@ -1,0 +1,112 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/gctronic/e-puck/protos/E-puck.proto"
+
+WorldInfo {
+  title "AprilTag Detection World"
+  basicTimeStep 32
+}
+
+Viewpoint {
+  orientation -0.2 0.3 0.95 1.0
+  position 1.0 -1.0 1.5
+}
+
+TexturedBackground {
+}
+
+TexturedBackgroundLight {
+}
+
+RectangleArena {
+  floorSize 3 3
+}
+
+# Simple cube with AprilTag texture
+Solid {
+  translation 0.5 0 0.05
+  name "apriltag_cube_01"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url ["../textures/apriltag_00.png"]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.1 0.1 0.1
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.1 0.1 0.1
+  }
+  physics Physics {
+    mass 0.1
+  }
+}
+
+# Another cube with different AprilTag
+Solid {
+  translation -0.5 0.3 0.05
+  rotation 0 0 1 0.785
+  name "apriltag_cube_02"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url ["../textures/apriltag_01.png"]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.1 0.1 0.1
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.1 0.1 0.1
+  }
+  physics Physics {
+    mass 0.1
+  }
+}
+
+# Wall with AprilTag
+Solid {
+  translation 0 1.0 0.25
+  name "apriltag_wall"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColorMap ImageTexture {
+          url ["../textures/apriltag_02.png"]
+        }
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.5 0.01 0.5
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.5 0.01 0.5
+  }
+}
+
+# E-puck robot for detection
+E-puck {
+  translation 0 -0.5 0
+  name "detector_robot"
+  controller "apriltag_detector"
+  camera_width 640
+  camera_height 480
+  camera_fieldOfView 1.2
+}
