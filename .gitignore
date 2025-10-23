@@ -13,3 +13,8 @@ runner
 scripts/runs*
 scripts/__pycache__
 PROJECT_DOCUMENTATION.md
+
+# Webots generated files
+*.wbproj
+webots_apriltag/worlds/.*.jpg
+webots_apriltag/worlds/.*.wbproj
