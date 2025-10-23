@@ -5,11 +5,11 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/gctronic/e-puck/protos/E-puck.proto"
 
 WorldInfo {
-  title "CSWD V5"
+  title "CSWD 2 Robots V6"
 }
 Viewpoint {
-  orientation 0.05936529945455589 0.9862167404238437 -0.1544419053509756 1.5666345107070152
-  position -0.6642224103638896 1.3881180213540198 11.283294880770624
+  orientation 0.6056439209733481 -0.5517299952997813 -0.5734016509171667 4.264093573472673
+  position -0.77900952717926 -0.6624794419443045 9.691656424173217
   follow "collector_depositor_robot"
 }
 TexturedBackground {
@@ -1094,7 +1094,18 @@ DEF APRILTAG_50 Solid {
 }
 E-puck {
   translation -0.5 0 0
-  name "cswd_robot"
+  rotation 0 0 1 2.0944
+  name "cswd_robot_1"
+  controller "cswd_controller"
+  supervisor TRUE
+  camera_fieldOfView 1
+  camera_width 640
+  camera_height 480
+}
+E-puck {
+  translation 0.5 0 0
+  rotation 0 0 1 -1.047195307179586
+  name "cswd_robot_2"
   controller "cswd_controller"
   supervisor TRUE
   camera_fieldOfView 1
