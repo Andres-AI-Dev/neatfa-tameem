@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<argos-configuration>
+
+<framework>
+    <experiment ticks_per_second = "16"
+                random_seed      = "42"/>
+</framework>
+
+<controllers>
+    <iAnt_controller id      = "iAnt_c"
+                     library = "argos/build/source/libiAnt_controller">
+
+        <actuators>
+            <differential_steering implementation = "default"/>
+        </actuators>
+
+        <sensors>
+            <footbot_proximity    implementation = "default"
+                                  show_rays      = "true"/>
+            <positioning          implementation = "default"/>
+            <footbot_motor_ground implementation = "rot_z_only"/>
+            <footbot_light        implementation = "rot_z_only"
+                                  show_rays      = "true"/>
+        </sensors>
+
+        <params>
+            <iAnt_params searchStepSize          = "0.175"
+                         distanceTolerance       = "0.01"
+                         robotForwardSpeed       = "16.0"
+                         robotRotationSpeed      = "13.3"
+                         angleToleranceInDegrees = "15.0"/>
+        </params>
+    </iAnt_controller>
+</controllers>
+
+<!-- LOOP FUNCTIONS -->
+<loop_functions library = "argos/build/source/libiAnt_loop_functions"
+                label   = "iAnt_loop_functions">
+
+    <!-- CPFA parameters (bio-inspired foraging algorithm) -->
+    <CPFA       ProbabilityOfSwitchingToSearching = "0.2"
+                ProbabilityOfReturningToNest      = "0.001"
+                UninformedSearchVariation         = "15.0"
+                RateOfInformedSearchDecay         = "0.25"
+                RateOfSiteFidelity                = "2.5"
+                RateOfLayingPheromone             = "2.0"
+                RateOfPheromoneDecay              = "0.05"/>
+
+    <!-- Environment configuration for training -->
+    <simulation MaxSimCounter        = "1"
+                MaxSimTime           = "250"
+                VariableSeed         = "1"
+                OutputData           = "0"
+                ResourceDensityDelay = "4"
+                DrawDensityRate      = "1"
+                DrawTrails           = "1"
+                DrawTargetRays       = "1"
+                NestPosition         = "0.0, 0.0"
+                NestRadius           = "0.25"
+                NestElevation        = "0.01"
+                FoodRadius           = "0.05"
+                FoodDistribution     = "1"/>
+
+    <!-- Food distribution: Using clusters for more structured foraging -->
+    <_0_FoodDistribution_Random   FoodItemCount    = "128"/>
+    <_1_FoodDistribution_Cluster  NumberOfClusters = "4"
+                                  ClusterWidthX    = "2"
+                                  ClusterLengthY   = "2"/>
+    <_2_FoodDistribution_PowerLaw PowerRank        = "4"/>
+
+</loop_functions>
+
+<!-- ARENA -->
+<arena size="10.0, 10.0, 1.0" center="0.0, 0.0, 0.0">
+
+    <floor id="floor" source="loop_functions" pixels_per_meter="10"/>
+
+    <!-- Single robot for training (will expand to multi-robot later) -->
+    <foot-bot id="fb_0">
+        <body position="0.5, 0.5, 0" orientation="0, 0, 0"/>
+        <controller config="iAnt_c"/>
+    </foot-bot>
+
+    <!-- Lights for food sources (removed - using built-in CPFA food distribution instead) -->
+
+</arena>
+
+<!-- PHYSICS ENGINE(S) -->
+<physics_engines><dynamics2d id="dyn2d"/></physics_engines>
+
+<!-- MEDIA -->
+<media><led id="leds"/></media>
+
+<!-- VISUALIZATION -->
+<visualization>
+    <qt-opengl>
+        <camera>
+            <placement idx="0" position="0,0,8" look_at="0,0,0" lens_focal_length="20" />
+        </camera>
+        <user_functions library="argos/build/source/libiAnt_loop_functions"
+                        label="iAnt_qt_user_functions" />
+    </qt-opengl>
+</visualization>
+
+</argos-configuration>
