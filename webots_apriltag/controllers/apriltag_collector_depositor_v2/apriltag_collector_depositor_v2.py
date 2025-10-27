@@ -8,9 +8,20 @@ import numpy as np
 import cv2
 import sys
 import math
+import os
+import ctypes
 
 # Add the AprilTag library to path
-sys.path.insert(0, '../../../apriltag/build')
+apriltag_path = os.path.abspath('../../../apriltag/build')
+sys.path.insert(0, apriltag_path)
+
+# Preload the shared library using ctypes
+try:
+    lib_path = os.path.join(apriltag_path, 'libapriltag.so.3')
+    ctypes.CDLL(lib_path, mode=ctypes.RTLD_GLOBAL)
+    print(f"Loaded AprilTag shared library from: {lib_path}")
+except Exception as e:
+    print(f"Warning: Could not preload libapriltag.so.3: {e}")
 
 try:
     import apriltag
@@ -18,6 +29,7 @@ try:
     print("AprilTag library loaded successfully!")
 except ImportError as e:
     print(f"Warning: Could not import apriltag library: {e}")
+    print(f"  AprilTag path: {apriltag_path}")
     APRILTAG_AVAILABLE = False
 
 class AprilTagCollectorDepositor:

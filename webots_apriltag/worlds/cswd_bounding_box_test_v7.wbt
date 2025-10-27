@@ -5,11 +5,11 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/robots/gctronic/e-puck/protos/E-puck.proto"
 
 WorldInfo {
-  title "C&D Fixed Lighting V3"
+  title "CSWD Bounding Box Test V7"
 }
 Viewpoint {
-  orientation -0.6139347535751554 0.5575696491098046 0.5587487850046591 2.045136450520114
-  position -0.021424357395262064 0.00542020401632195 9.137854657469076
+  orientation 0.05936529945455589 0.9862167404238437 -0.1544419053509756 1.5666345107070152
+  position -0.6642224103638896 1.3881180213540198 11.283294880770624
   follow "collector_depositor_robot"
 }
 TexturedBackground {
@@ -1094,10 +1094,17 @@ DEF APRILTAG_50 Solid {
 }
 E-puck {
   translation -0.5 0 0
-  name "collector_depositor_robot"
-  controller "apriltag_collector_depositor_v2"
+  name "cswd_robot"
+  controller "cswd_bounding_box_controller"
   supervisor TRUE
   camera_fieldOfView 1
   camera_width 640
   camera_height 480
+  turretSlot [
+    Display {
+      name "bounding_box_display"
+      width 640
+      height 480
+    }
+  ]
 }

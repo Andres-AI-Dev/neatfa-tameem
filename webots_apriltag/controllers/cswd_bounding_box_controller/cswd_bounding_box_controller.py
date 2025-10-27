@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-CSWD Controller - Collect, Stop, Wait, Deposit with LED and sound signaling
+CSWD Controller with Bounding Box Visualization - Collect, Stop, Wait, Deposit with LED, sound signaling, and visual feedback
 """
 
 from controller import Robot, Supervisor
@@ -45,6 +45,16 @@ class CSWDController:
         self.height = self.camera.getHeight()
         self.center_x = self.width / 2
         print(f"Camera initialized: {self.width}x{self.height}")
+
+        # Display for bounding box visualization (using turretSlot)
+        self.display = self.robot.getDevice("bounding_box_display")
+        if self.display:
+            # Attach the camera to the display for overlay
+            self.display.attachCamera(self.camera)
+            print("Display device initialized and attached to camera")
+        else:
+            print("Warning: Display device not found")
+            self.display = None
 
         # Motors
         self.left_motor = self.robot.getDevice("left wheel motor")
@@ -355,6 +365,82 @@ class CSWDController:
         if self.front_led:
             self.front_led.set(0)
 
+    def clear_display(self):
+        """Clear the display for new bounding boxes"""
+        if self.display:
+            # The display automatically shows the camera feed as background
+            # We just need to clear any previous overlays
+            pass
+
+    def draw_bounding_box(self, detection, color=0xFF0000, label=""):
+        """Draw a bounding box around detected AprilTag
+
+        Args:
+            detection: AprilTag detection with 'corners' field
+            color: RGB color as integer (default red 0xFF0000)
+            label: Optional text label
+        """
+        if not self.display or not detection:
+            return
+
+        try:
+            # Get corners from detection
+            corners = detection.get('corners', None)
+            if corners is None:
+                return
+
+            # Convert corners to integer coordinates
+            corners = np.array(corners).astype(int)
+
+            # Calculate bounding box from corners
+            x_coords = corners[:, 0]
+            y_coords = corners[:, 1]
+            x_min, x_max = int(np.min(x_coords)), int(np.max(x_coords))
+            y_min, y_max = int(np.min(y_coords)), int(np.max(y_coords))
+
+            # Ensure coordinates are within display bounds
+            x_min = max(0, min(x_min, self.width - 1))
+            x_max = max(0, min(x_max, self.width - 1))
+            y_min = max(0, min(y_min, self.height - 1))
+            y_max = max(0, min(y_max, self.height - 1))
+
+            # Calculate width and height
+            bbox_width = x_max - x_min
+            bbox_height = y_max - y_min
+
+            if bbox_width > 0 and bbox_height > 0:
+                # Set color and alpha for drawing
+                self.display.setColor(color)
+                self.display.setAlpha(1.0)  # Fully opaque for the bounding box
+                self.display.drawRectangle(x_min, y_min, bbox_width, bbox_height)
+
+                # Draw center cross
+                center_x = (x_min + x_max) // 2
+                center_y = (y_min + y_max) // 2
+                cross_size = 5
+                self.display.drawLine(center_x - cross_size, center_y, center_x + cross_size, center_y)
+                self.display.drawLine(center_x, center_y - cross_size, center_x, center_y + cross_size)
+
+                # Add label if provided
+                if label:
+                    self.display.drawText(label, x_min, y_min - 15)
+
+        except Exception as e:
+            print(f"Error drawing bounding box: {e}")
+
+    def get_bounding_box_color(self):
+        """Get color for bounding box based on current state"""
+        if self.state == "SEARCHING":
+            return 0xFF0000  # Red - detecting
+        elif self.state == "APPROACHING":
+            return 0x00FF00  # Green - locked and approaching
+        elif self.state in ["SIGNALING", "COLLECTING"]:
+            return 0x0000FF  # Blue - collecting
+        elif self.state in ["TURNING_TO_BASE", "RETURNING", "DEPOSITING"]:
+            return 0xFFFF00  # Yellow - returning
+        else:
+            return 0xFF00FF  # Magenta - other states
+
     def collect_apriltag_at_position(self, x, y):
         """Try to collect AprilTag near given position"""
         # Find AprilTag nodes near this position
@@ -499,10 +585,14 @@ class CSWDController:
             image = np.frombuffer(image_data, np.uint8).reshape((self.height, self.width, 4))
             gray = cv2.cvtColor(image, cv2.COLOR_BGRA2GRAY)
 
+            # Look for AprilTags and prepare visualization
+            current_detection = None
+
             # State machine
             if self.state == "SEARCHING":
                 # Look for AprilTag visually
                 detection = self.find_apriltag_visually(gray)
+                current_detection = detection
 
                 if detection:
                     self.state = "APPROACHING"
@@ -518,6 +608,7 @@ class CSWDController:
             elif self.state == "APPROACHING":
                 # Look for AprilTag
                 detection = self.find_apriltag_visually(gray)
+                current_detection = detection
 
                 if detection:
                     # Visual tracking - center the tag
@@ -698,6 +789,21 @@ class CSWDController:
 
                     self.state = "SEARCHING"
                     print(f"[DEPOSITING] Complete! Searching for more AprilTags...")
+
+            # Clear display and draw bounding box visualization
+            if self.display:
+                # Clear the display by filling with transparent color (this resets the overlay)
+                self.display.setColor(0x000000)  # Black
+                self.display.setAlpha(0.0)      # Fully transparent
+                self.display.fillRectangle(0, 0, self.width, self.height)
+
+                # Draw bounding box if we have a detection
+                if current_detection:
+                    color = self.get_bounding_box_color()
+                    state_label = f"{self.state}"
+                    if self.locked_tag_center is not None:
+                        state_label += " (LOCKED)"
+                    self.draw_bounding_box(current_detection, color, state_label)
 
 if __name__ == "__main__":
     controller = CSWDController()
