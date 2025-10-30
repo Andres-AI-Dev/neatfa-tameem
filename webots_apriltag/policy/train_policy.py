@@ -7,9 +7,11 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 import joblib
 
-# Paths (match common_policy.py)
-DATA_PATH = os.path.expanduser("~/apriltag_policy_data.csv")
-MODEL_PATH = os.path.expanduser("~/apriltag_policy.joblib")
+# Match common_policy.py env-based paths
+POLICY_NAME = os.environ.get("POLICY_NAME", "apriltag_policy")
+POLICY_DIR  = os.path.expanduser(os.environ.get("POLICY_DIR", "~"))
+DATA_PATH   = os.path.join(POLICY_DIR, f"{POLICY_NAME}_data.csv")
+MODEL_PATH  = os.path.join(POLICY_DIR, f"{POLICY_NAME}.joblib")
 
 print("📁 Loading data from:", DATA_PATH)
 df = pd.read_csv(DATA_PATH)
@@ -41,5 +43,6 @@ mse = mean_squared_error(y_test, y_pred)
 print(f"✅ Done. Test MSE: {mse:.6f}")
 
 # Save model
+os.makedirs(os.path.dirname(MODEL_PATH), exist_ok=True)
 joblib.dump(model, MODEL_PATH)
 print(f"💾 Saved policy to: {MODEL_PATH}")

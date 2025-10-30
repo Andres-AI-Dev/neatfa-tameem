@@ -9,16 +9,18 @@ import cv2
 import sys
 import os
 
-# Add the built AprilTag library to path
+# Add the built AprilTag library to path (kept as-is; harmless)
 sys.path.insert(0, '../../../apriltag/build')
 
+# CHANGED: import from pupil_apriltags instead of apriltag
 try:
-    import apriltag
+    from pupil_apriltags import Detector as AprilDetector
     APRILTAG_AVAILABLE = True
-    print("AprilTag library loaded successfully!")
+    print("AprilTag (pupil_apriltags) library loaded successfully!")
 except ImportError as e:
     print(f"Warning: Could not import apriltag library: {e}")
     APRILTAG_AVAILABLE = False
+
 
 class AprilTagDetectorReal:
     def __init__(self):
@@ -38,11 +40,11 @@ class AprilTagDetectorReal:
         self.left_motor.setPosition(float('inf'))
         self.right_motor.setPosition(float('inf'))
 
-        # Initialize AprilTag detector
+        # CHANGED: Initialize AprilTag detector (pupil_apriltags)
         self.detector = None
         if APRILTAG_AVAILABLE:
             try:
-                self.detector = apriltag.apriltag("tag36h11")
+                self.detector = AprilDetector(families="tag36h11")
                 print("AprilTag detector initialized with tag36h11 family")
             except Exception as e:
                 print(f"Could not initialize apriltag detector: {e}")
@@ -64,12 +66,13 @@ class AprilTagDetectorReal:
                 if len(raw_detections) > 0:
                     print(f"Raw detections: {raw_detections}")
 
-                # Convert to our format
+                # CHANGED: convert pupil_apriltags Detection objects to your dict format
                 for det in raw_detections:
+                    # det has .tag_id, .center (2,), .corners (4x2)
                     detections.append({
-                        'id': det['id'] if 'id' in det else -1,
-                        'center': det.get('center', [0, 0]),
-                        'corners': det.get('corners', [[0,0]]*4)
+                        'id': int(getattr(det, "tag_id", -1)),
+                        'center': list(map(float, getattr(det, "center", [0, 0]))),
+                        'corners': np.asarray(getattr(det, "corners", [[0, 0]] * 4)).tolist()
                     })
             except Exception as e:
                 print(f"Detection error: {e}")

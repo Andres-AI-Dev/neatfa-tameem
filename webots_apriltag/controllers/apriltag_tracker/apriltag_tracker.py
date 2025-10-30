@@ -10,16 +10,18 @@ import cv2
 import sys
 import math
 
-# Add the AprilTag library to path
+# Add the AprilTag library to path (harmless to keep)
 sys.path.insert(0, '../../../apriltag/build')
 
+# --- CHANGED: import pupil_apriltags instead of apriltag ---
 try:
-    import apriltag
+    from pupil_apriltags import Detector as AprilDetector
     APRILTAG_AVAILABLE = True
     print("AprilTag library loaded successfully!")
 except ImportError as e:
     print(f"Warning: Could not import apriltag library: {e}")
     APRILTAG_AVAILABLE = False
+# ------------------------------------------------------------
 
 class AprilTagTracker:
     def __init__(self):
@@ -48,7 +50,8 @@ class AprilTagTracker:
         self.detector = None
         if APRILTAG_AVAILABLE:
             try:
-                self.detector = apriltag.apriltag("tag36h11")
+                # --- CHANGED: create Detector from pupil_apriltags ---
+                self.detector = AprilDetector(families="tag36h11")
                 print("AprilTag detector initialized with tag36h11 family")
             except Exception as e:
                 print(f"Could not initialize apriltag detector: {e}")
@@ -84,15 +87,15 @@ class AprilTagTracker:
             return None
 
         try:
+            # --- CHANGED: pupil_apriltags returns objects with attributes ---
             detections = self.detector.detect(gray_image)
             if len(detections) > 0:
-                # Return first detection
                 det = detections[0]
                 return {
-                    'id': det['id'],
-                    'center': det['center'],
-                    'corners': det['lb-rb-rt-lt'],
-                    'margin': det['margin']
+                    'id': det.tag_id,
+                    'center': det.center,           # (x, y)
+                    'corners': det.corners,         # 4x2 array
+                    'margin': getattr(det, 'decision_margin', None)
                 }
         except Exception as e:
             print(f"Detection error: {e}")
@@ -128,7 +131,6 @@ class AprilTagTracker:
 
         # If within dead zone, reduce speed but don't stop completely
         if abs(error) < self.dead_zone:
-            # Still apply small correction within dead zone
             self.last_error = error
             return self.kp * error * 0.3  # Small correction
 
@@ -189,8 +191,6 @@ class AprilTagTracker:
                     rotation_speed = self.track_tag(detection)
 
                     # Apply differential drive for rotation
-                    # To turn left (negative speed): left wheel backward, right wheel forward
-                    # To turn right (positive speed): left wheel forward, right wheel backward
                     self.left_motor.setVelocity(rotation_speed)
                     self.right_motor.setVelocity(-rotation_speed)
 

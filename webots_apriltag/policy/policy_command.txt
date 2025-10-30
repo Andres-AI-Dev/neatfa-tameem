@@ -1,0 +1,39 @@
+# ===========================
+# APRILTAG TRACKER FOLLOWER
+# ===========================
+
+# Log (collect data)
+APRILTAG_POLICY=log /Applications/Webots.app/Contents/MacOS/webots ~/Documents/neatfa-tameem/webots_apriltag/worlds/track_and_follow_apriltag.wbt
+
+# Train (update model)
+python3 ~/Documents/neatfa-tameem/webots_apriltag/policy/train_policy.py
+
+# Use (run with trained model)
+APRILTAG_POLICY=use /Applications/Webots.app/Contents/MacOS/webots ~/Documents/neatfa-tameem/webots_apriltag/worlds/track_and_follow_apriltag.wbt
+
+
+
+# ===================================
+# APRILTAG COLLECTOR DEPOSITOR v2
+# (separate model using POLICY_NAME)
+# ===================================
+
+# Log (collect data)
+POLICY_NAME=collector_v2 APRILTAG_POLICY=log /Applications/Webots.app/Contents/MacOS/webots ~/Documents/neatfa-tameem/webots_apriltag/worlds/apriltag_collect_and_deposit_v2.wbt
+
+# Train (update model)
+POLICY_NAME=collector_v2 python3 ~/Documents/neatfa-tameem/webots_apriltag/policy/train_policy.py
+
+# Use (run with trained model)
+POLICY_NAME=collector_v2 APRILTAG_POLICY=use /Applications/Webots.app/Contents/MacOS/webots ~/Documents/neatfa-tameem/webots_apriltag/worlds/apriltag_collect_and_deposit_v2.wbt
+
+
+
+# ----------
+# Quick checks
+# ----------
+# List worlds to avoid typos
+# ls -1 ~/Documents/neatfa-tameem/webots_apriltag/worlds
+
+
+POLICY_NAME=collector_v2_multi /Applications/Webots.app/Contents/MacOS/webots ~/Documents/neatfa-tameem/webots_apriltag/worlds/apriltag_collect_and_deposit_v2_multi.wbt

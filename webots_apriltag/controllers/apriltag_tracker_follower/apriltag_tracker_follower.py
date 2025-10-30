@@ -11,7 +11,8 @@ import sys
 import math
 import os  # <-- added
 
-# policy utils (logging / model)  <-- added
+# policy utils (logging / model)  <-- updated to import from shared policy folder
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", "..", "policy"))
 from common_policy import init_logger, log_row, features_from_detection, load_policy
 
 # Add the AprilTag library to path (harmless if unused)

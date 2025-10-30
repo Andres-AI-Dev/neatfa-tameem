@@ -1,8 +1,10 @@
-# common_policy.py  — tiny utilities for data logging + model use
+# common_policy.py — tiny utilities for data logging + model use
 import os, csv, joblib, numpy as np
 
-DATA_PATH  = os.path.expanduser("~/apriltag_policy_data.csv")
-MODEL_PATH = os.path.expanduser("~/apriltag_policy.joblib")
+# Per-controller naming via env (defaults to 'apriltag_policy')
+BASE_NAME  = os.environ.get("POLICY_NAME", "apriltag_policy")
+DATA_PATH  = os.path.expanduser(f"~/{BASE_NAME}_data.csv")
+MODEL_PATH = os.path.expanduser(f"~/{BASE_NAME}.joblib")
 
 _log_file = None
 _log_writer = None
@@ -54,12 +56,29 @@ def features_from_detection(controller_self, detection):
 
     return np.array([err_x, err_x_d, size_err, size_err_d], dtype=float)
 
-def policy_predict_left_right(model, feat):
+def policy_predict_left_right(model, feat, vmax=6.28):
     """
     Model outputs desired [left, right] wheel speeds.
-    Clip to e-puck limits.
+    Clip to robot limits (vmax). Add a small gain and close-range nudge to avoid stalling.
+    Tunables via env:
+      POLICY_GAIN        (default 1.3)
+      POLICY_MIN_FWD     (default 0.6)
+      POLICY_CLOSE_SIZE  (default 200)
     """
     left, right = model.predict([feat])[0]
-    left  = float(np.clip(left,  -6.28, 6.28))
-    right = float(np.clip(right, -6.28, 6.28))
+
+    # Mild boost so speeds aren't tiny
+    gain = float(os.environ.get("POLICY_GAIN", "1.3"))
+    left *= gain
+    right *= gain
+
+    # If we're very close (tag looks big) and both wheels ~0, nudge forward
+    size_err = float(feat[2])  # smoothed_size - target_tag_size
+    if size_err > float(os.environ.get("POLICY_CLOSE_SIZE", "200")):
+        if abs(left) < 0.25 and abs(right) < 0.25:
+            min_fwd = float(os.environ.get("POLICY_MIN_FWD", "0.6"))
+            left, right = min_fwd, min_fwd
+
+    left  = float(np.clip(left,  -vmax, vmax))
+    right = float(np.clip(right, -vmax, vmax))
     return left, right

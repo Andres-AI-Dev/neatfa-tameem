@@ -10,16 +10,18 @@ import cv2
 import sys
 import math
 
-# Add the AprilTag library to path
+# Add the AprilTag library to path (harmless if unused)
 sys.path.insert(0, '../../../apriltag/build')
 
+# ---- MINIMAL CHANGE: import pupil_apriltags Detector ----
 try:
-    import apriltag
+    from pupil_apriltags import Detector as _Detector
     APRILTAG_AVAILABLE = True
-    print("AprilTag library loaded successfully!")
+    print("AprilTag library (pupil_apriltags) loaded successfully!")
 except ImportError as e:
-    print(f"Warning: Could not import apriltag library: {e}")
+    print(f"Warning: Could not import pupil_apriltags library: {e}")
     APRILTAG_AVAILABLE = False
+# ---------------------------------------------------------
 
 class AprilTagCollector:
     def __init__(self):
@@ -47,10 +49,11 @@ class AprilTagCollector:
         self.detector = None
         if APRILTAG_AVAILABLE:
             try:
-                self.detector = apriltag.apriltag("tag36h11")
-                print("AprilTag detector initialized with tag36h11 family")
+                # MINIMAL CHANGE: construct pupil_apriltags detector for tag36h11
+                self.detector = _Detector(families="tag36h11")
+                print("AprilTag detector initialized with tag36h11 family (pupil_apriltags)")
             except Exception as e:
-                print(f"Could not initialize apriltag detector: {e}")
+                print(f"Could not initialize pupil_apriltags detector: {e}")
 
         # Get nodes for position tracking
         self.robot_node = self.robot.getSelf()
@@ -101,14 +104,15 @@ class AprilTagCollector:
             return None
 
         try:
+            # MINIMAL CHANGE: use pupil_apriltags Detector and map to your dict format
             detections = self.detector.detect(gray_image)
             if len(detections) > 0:
                 det = detections[0]
                 return {
-                    'id': det['id'],
-                    'center': det['center'],
-                    'corners': det['lb-rb-rt-lt'],
-                    'margin': det['margin']
+                    'id': getattr(det, 'tag_id', 0),
+                    'center': det.center,       # (x, y)
+                    'corners': det.corners,     # 4x2 array
+                    'margin': 0                 # placeholder to keep existing code happy
                 }
         except Exception as e:
             print(f"Detection error: {e}")
@@ -138,9 +142,6 @@ class AprilTagCollector:
 
         if tag_pos is not None:
             distance = np.linalg.norm(robot_pos - tag_pos)
-
-            # Check if we're touching (accounting for robot and cube radii)
-            # E-puck radius ~3.5cm, cube half-width 2.75cm, so touching at ~6cm
             if distance < self.collection_distance:
                 return True
         return False
@@ -150,38 +151,28 @@ class AprilTagCollector:
         if not self.apriltag_node or not self.robot_node:
             return False
 
-        # Get robot's current position and rotation
         robot_position = self.robot_node.getPosition()
-        robot_rotation = self.robot_node.getOrientation()
 
-        # Calculate position on top of robot
-        # E-puck center is at ground level, so we need to go up
         attach_x = robot_position[0]
         attach_y = robot_position[1]
         attach_z = self.attach_height_offset  # Place on top of robot
 
-        # Move AprilTag to robot's top
         translation_field = self.apriltag_node.getField("translation")
         if translation_field:
             translation_field.setSFVec3f([attach_x, attach_y, attach_z])
 
-        # Make the AprilTag semi-transparent
         children_field = self.apriltag_node.getField("children")
         if children_field:
-            shape = children_field.getMFNode(0)  # Get the Shape node
+            shape = children_field.getMFNode(0)
             if shape:
                 appearance_field = shape.getField("appearance")
                 if appearance_field:
                     appearance = appearance_field.getSFNode()
                     if appearance:
-                        # Set transparency (0 = opaque, 1 = fully transparent)
                         transparency_field = appearance.getField("transparency")
                         if transparency_field:
-                            transparency_field.setSFFloat(0.35)  # 65% opacity = 0.35 transparency
-                        else:
-                            print("Could not find transparency field")
+                            transparency_field.setSFFloat(0.35)
 
-        # Mark as collected
         self.has_collected = True
         self.collection_time = self.robot.getTime()
 
@@ -196,10 +187,7 @@ class AprilTagCollector:
         if not self.has_collected or not self.apriltag_node or not self.robot_node:
             return
 
-        # Get robot's current position
         robot_position = self.robot_node.getPosition()
-
-        # Update AprilTag position to stay on top of robot
         attach_x = robot_position[0]
         attach_y = robot_position[1]
         attach_z = self.attach_height_offset
@@ -213,23 +201,17 @@ class AprilTagCollector:
         if detection is None:
             return 0, 0
 
-        # Get tag position in image
         tag_center_x = detection['center'][0]
         tag_size = self.calculate_tag_size(detection)
 
         if tag_size is None:
             return 0, 0
 
-        # Rotation control (center the tag)
         rotation_error = tag_center_x - self.center_x
         rotation_speed = self.kp_rotation * rotation_error
         rotation_speed = np.clip(rotation_speed, -self.max_rotation_speed, self.max_rotation_speed)
 
-        # Distance control (approach the tag)
-        # Keep moving forward at full speed until we collect it
-        # Don't slow down - we'll collect based on distance
         forward_speed = self.max_forward_speed
-
         return rotation_speed, forward_speed
 
     def apply_motor_speeds(self, rotation_speed, forward_speed):
@@ -237,7 +219,6 @@ class AprilTagCollector:
         left_speed = forward_speed + rotation_speed
         right_speed = forward_speed - rotation_speed
 
-        # Clip to motor limits
         left_speed = np.clip(left_speed, -6.28, 6.28)
         right_speed = np.clip(right_speed, -6.28, 6.28)
 
@@ -254,51 +235,36 @@ class AprilTagCollector:
         while self.robot.step(self.timestep) != -1:
             step += 1
 
-            # Update attached AprilTag position if collected
             if self.has_collected:
                 self.update_attached_apriltag()
                 post_collection_steps += 1
 
-                # After collection, do a victory spin!
                 if post_collection_steps < 100:
-                    # Spin in place to celebrate
                     self.left_motor.setVelocity(2.0)
                     self.right_motor.setVelocity(-2.0)
                 elif post_collection_steps == 100:
-                    # Stop after spinning
                     self.left_motor.setVelocity(0)
                     self.right_motor.setVelocity(0)
                     print("\nRobot has successfully collected the AprilTag!")
                     print("AprilTag is now attached to the robot.")
-
                 continue
 
-            # ALWAYS check for collection based on distance
             if self.check_collection():
                 self.attach_apriltag_to_robot()
                 continue
 
-            # Process camera for AprilTag detection
             image_data = self.camera.getImage()
             if image_data:
-                # Convert to numpy array
                 image = np.frombuffer(image_data, np.uint8).reshape(
                     (self.height, self.width, 4))
-
-                # Convert to grayscale
                 gray = cv2.cvtColor(image, cv2.COLOR_BGRA2GRAY)
 
-                # Detect AprilTag
                 detection = self.detect_apriltag(gray)
 
                 if detection:
-                    # Calculate motor speeds to approach
                     rotation_speed, forward_speed = self.calculate_motor_speeds(detection)
-
-                    # Apply speeds
                     self.apply_motor_speeds(rotation_speed, forward_speed)
 
-                    # Debug output
                     if step % 20 == 0:
                         tag_size = self.calculate_tag_size(detection)
                         robot_pos = self.get_robot_position()
@@ -310,35 +276,24 @@ class AprilTagCollector:
                             print(f"  Distance: {distance:.3f}m, Tag size: {tag_size:.0f}px")
                             print(f"  Forward: {forward_speed:.2f}, Rotation: {rotation_speed:.2f}")
 
-                    # Save visualization periodically
                     if step % 100 == 0:
                         vis_img = cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
-
-                        # Draw detection
                         corners = np.array(detection['corners'], dtype=np.int32)
                         cv2.polylines(vis_img, [corners], True, (0, 255, 0), 2)
-
-                        # Draw center
                         center = tuple(map(int, detection['center']))
                         cv2.circle(vis_img, center, 5, (0, 0, 255), -1)
-
-                        # Add status text
                         cv2.putText(vis_img, "Approaching...", (10, 30),
-                                  cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
-
+                                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
                         filename = f"collection_{step:06d}.png"
                         cv2.imwrite(filename, vis_img)
                         print(f"  Saved: {filename}")
-                    # Remember last known position
+
                     last_known_tag_position = self.get_apriltag_position()
                     lost_tag_counter = 0
                 else:
-                    # No detection
                     lost_tag_counter += 1
 
-                    # If we recently lost the tag (likely because it's too close)
                     if lost_tag_counter < 30 and last_known_tag_position is not None:
-                        # Keep moving forward at full speed to reach the tag
                         self.left_motor.setVelocity(4.0)
                         self.right_motor.setVelocity(4.0)
 
@@ -349,7 +304,6 @@ class AprilTagCollector:
                                 distance = np.linalg.norm(robot_pos - tag_pos)
                                 print(f"[Step {step}] Lost visual, moving forward. Distance: {distance:.3f}m")
                     else:
-                        # Really lost - search by rotating
                         self.left_motor.setVelocity(1.0)
                         self.right_motor.setVelocity(-1.0)
 

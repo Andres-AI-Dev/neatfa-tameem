@@ -12,7 +12,10 @@ import sys
 
 # Add AprilTag library path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import apriltag
+
+# CHANGED: use pupil_apriltags instead of apriltag
+from pupil_apriltags import Detector as AprilDetector
+
 
 class AprilTagDistanceTest:
     def __init__(self):
@@ -31,8 +34,8 @@ class AprilTagDistanceTest:
 
         print(f"[Lane {self.lane_number}] Camera initialized: {self.camera.getWidth()}x{self.camera.getHeight()}")
 
-        # Initialize AprilTag detector
-        self.detector = apriltag.apriltag("tag36h11")
+        # CHANGED: initialize pupil_apriltags detector
+        self.detector = AprilDetector(families="tag36h11")
 
         # Test parameters
         self.test_frames = 30  # Number of frames to test
@@ -93,17 +96,15 @@ class AprilTagDistanceTest:
                 if results:
                     # Record detection
                     for detection in results:
-                        # Calculate size (average of width and height)
-                        # Detections are returned as dictionaries
+                        # CHANGED: pupil_apriltags returns object with .corners (Nx2)
                         try:
-                            corners = detection['lb-rb-rt-lt']  # corners in dictionary format
+                            corners = np.asarray(detection.corners)
                             width = np.linalg.norm(corners[1] - corners[0])
                             height = np.linalg.norm(corners[3] - corners[0])
                             size = (width + height) / 2
                             self.sizes.append(size)
                             self.detection_count += 1
-                        except (KeyError, TypeError):
-                            # Skip if corners not accessible
+                        except Exception:
                             continue
 
                 self.frame_count += 1
