@@ -11,10 +11,12 @@ Viewpoint {
   orientation -0.45375199384834025 0.15517488072861602 0.8775134668308604 2.3467807764883486
   position 4.877050702140805 -6.274987923316595 12.10714747720302
   follow "EPuck_1"
+  followType "None"
 }
-TexturedBackground { }
-TexturedBackgroundLight { }
-
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
 Solid {
   children [
     Shape {
@@ -23,13 +25,16 @@ Solid {
         roughness 1
         metalness 0
       }
-      geometry Box { size 5 5 0.001 }
+      geometry Box {
+        size 5 5 0.001
+      }
     }
   ]
   name "floor"
-  boundingObject Box { size 5 5 0.001 }
+  boundingObject Box {
+    size 5 5 0.001
+  }
 }
-
 DEF DEPOSIT_BASE Solid {
   translation 0 0 0.05
   children [
@@ -42,7 +47,10 @@ DEF DEPOSIT_BASE Solid {
         emissiveColor 0.1 0.3 0.5
         emissiveIntensity 0.3
       }
-      geometry Cylinder { height 0.1 radius 0.2 }
+      geometry Cylinder {
+        height 0.1
+        radius 0.2
+      }
     }
     Pose {
       translation 0 0 -0.049
@@ -54,295 +62,351 @@ DEF DEPOSIT_BASE Solid {
             roughness 0.3
             metalness 0.5
           }
-          geometry Cylinder { height 0.002 radius 0.25 }
+          geometry Cylinder {
+            height 0.002
+            radius 0.25
+          }
         }
       ]
     }
   ]
   name "deposit_base"
 }
-
-# ---------------------- ALL APRILTAGS WITH LIGHTING ----------------------
-
-# Zone 1: Top-left area
 DEF APRILTAG_1 Solid {
   translation -1.8 1.8 0.0275
   rotation 0 0 1 0.5
   children [
     Shape {
       appearance PBRAppearance {
-        baseColorMap ImageTexture { url [ "../textures/real_tag36h11_id0.png" ] }
+        baseColorMap ImageTexture {
+          url [
+            "../textures/real_tag36h11_id0.png"
+          ]
+        }
         roughness 0.5
         metalness 0
         emissiveIntensity 0.2
       }
-      geometry Box { size 0.055 0.055 0.055 }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
     }
   ]
   name "apriltag_1"
 }
-
-# FIXED: Moved AprilTag 2 inward from edge
 DEF APRILTAG_2 Solid {
-  translation -1.8 1.2 0.0275  # Changed from -2.2 to -1.8
+  translation -1.8 1.2 0.0275
   rotation 0 0 1 1.2
   children [
     Shape {
       appearance PBRAppearance {
-        baseColorMap ImageTexture { url [ "../textures/real_tag36h11_id0.png" ] }
+        baseColorMap ImageTexture {
+          url [
+            "../textures/real_tag36h11_id0.png"
+          ]
+        }
         roughness 0.5
         metalness 0
         emissiveIntensity 0.2
       }
-      geometry Box { size 0.055 0.055 0.055 }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
     }
   ]
   name "apriltag_2"
 }
-
 DEF APRILTAG_3 Solid {
-  translation -1.4 2.0 0.0275
+  translation -1.4 2 0.0275
   rotation 0 0 1 2.8
   children [
     Shape {
       appearance PBRAppearance {
-        baseColorMap ImageTexture { url [ "../textures/real_tag36h11_id0.png" ] }
+        baseColorMap ImageTexture {
+          url [
+            "../textures/real_tag36h11_id0.png"
+          ]
+        }
         roughness 0.5
         metalness 0
         emissiveIntensity 0.2
       }
-      geometry Box { size 0.055 0.055 0.055 }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
     }
   ]
   name "apriltag_3"
 }
-
-# Zone 2: Top-right area
 DEF APRILTAG_4 Solid {
   translation 1.8 1.8 0.0275
   rotation 0 0 1 0.9
   children [
     Shape {
       appearance PBRAppearance {
-        baseColorMap ImageTexture { url [ "../textures/real_tag36h11_id0.png" ] }
+        baseColorMap ImageTexture {
+          url [
+            "../textures/real_tag36h11_id0.png"
+          ]
+        }
         roughness 0.5
         metalness 0
         emissiveIntensity 0.2
       }
-      geometry Box { size 0.055 0.055 0.055 }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
     }
   ]
   name "apriltag_4"
 }
-
 DEF APRILTAG_5 Solid {
   translation 2.2 1.3 0.0275
   rotation 0 0 1 1.8
   children [
     Shape {
       appearance PBRAppearance {
-        baseColorMap ImageTexture { url [ "../textures/real_tag36h11_id0.png" ] }
+        baseColorMap ImageTexture {
+          url [
+            "../textures/real_tag36h11_id0.png"
+          ]
+        }
         roughness 0.5
         metalness 0
         emissiveIntensity 0.2
       }
-      geometry Box { size 0.055 0.055 0.055 }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
     }
   ]
   name "apriltag_5"
 }
-
-# Zone 3: Bottom-left area
 DEF APRILTAG_6 Solid {
   translation -1.8 -1.8 0.0275
   rotation 0 0 1 3.1
   children [
     Shape {
       appearance PBRAppearance {
-        baseColorMap ImageTexture { url [ "../textures/real_tag36h11_id0.png" ] }
+        baseColorMap ImageTexture {
+          url [
+            "../textures/real_tag36h11_id0.png"
+          ]
+        }
         roughness 0.5
         metalness 0
         emissiveIntensity 0.2
       }
-      geometry Box { size 0.055 0.055 0.055 }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
     }
   ]
   name "apriltag_6"
 }
-
-# FIXED: Moved AprilTag 7 inward from edge  
 DEF APRILTAG_7 Solid {
-  translation -1.8 -1.3 0.0275  # Changed from -2.1 to -1.8
+  translation -1.8 -1.3 0.0275
   rotation 0 0 1 2.3
   children [
     Shape {
       appearance PBRAppearance {
-        baseColorMap ImageTexture { url [ "../textures/real_tag36h11_id0.png" ] }
+        baseColorMap ImageTexture {
+          url [
+            "../textures/real_tag36h11_id0.png"
+          ]
+        }
         roughness 0.5
         metalness 0
         emissiveIntensity 0.2
       }
-      geometry Box { size 0.055 0.055 0.055 }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
     }
   ]
   name "apriltag_7"
 }
-
 DEF APRILTAG_8 Solid {
   translation -1.3 -2.1 0.0275
   rotation 0 0 1 0.7
   children [
     Shape {
       appearance PBRAppearance {
-        baseColorMap ImageTexture { url [ "../textures/real_tag36h11_id0.png" ] }
+        baseColorMap ImageTexture {
+          url [
+            "../textures/real_tag36h11_id0.png"
+          ]
+        }
         roughness 0.5
         metalness 0
         emissiveIntensity 0.2
       }
-      geometry Box { size 0.055 0.055 0.055 }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
     }
   ]
   name "apriltag_8"
 }
-
-# Zone 4: Bottom-right area
 DEF APRILTAG_9 Solid {
   translation 1.8 -1.8 0.0275
   rotation 0 0 1 1.4
   children [
     Shape {
       appearance PBRAppearance {
-        baseColorMap ImageTexture { url [ "../textures/real_tag36h11_id0.png" ] }
+        baseColorMap ImageTexture {
+          url [
+            "../textures/real_tag36h11_id0.png"
+          ]
+        }
         roughness 0.5
         metalness 0
         emissiveIntensity 0.2
       }
-      geometry Box { size 0.055 0.055 0.055 }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
     }
   ]
   name "apriltag_9"
 }
-
 DEF APRILTAG_10 Solid {
   translation 2.1 -1.2 0.0275
   rotation 0 0 1 2.1
   children [
     Shape {
       appearance PBRAppearance {
-        baseColorMap ImageTexture { url [ "../textures/real_tag36h11_id0.png" ] }
+        baseColorMap ImageTexture {
+          url [
+            "../textures/real_tag36h11_id0.png"
+          ]
+        }
         roughness 0.5
         metalness 0
         emissiveIntensity 0.2
       }
-      geometry Box { size 0.055 0.055 0.055 }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
     }
   ]
   name "apriltag_10"
 }
-
-# Zone 5: Middle area
 DEF APRILTAG_11 Solid {
   translation 1.2 1.2 0.0275
   rotation 0 0 1 0.3
   children [
     Shape {
       appearance PBRAppearance {
-        baseColorMap ImageTexture { url [ "../textures/real_tag36h11_id0.png" ] }
+        baseColorMap ImageTexture {
+          url [
+            "../textures/real_tag36h11_id0.png"
+          ]
+        }
         roughness 0.5
         metalness 0
         emissiveIntensity 0.2
       }
-      geometry Box { size 0.055 0.055 0.055 }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
     }
   ]
   name "apriltag_11"
 }
-
 DEF APRILTAG_12 Solid {
   translation -1.2 -1.2 0.0275
   rotation 0 0 1 1.9
   children [
     Shape {
       appearance PBRAppearance {
-        baseColorMap ImageTexture { url [ "../textures/real_tag36h11_id0.png" ] }
+        baseColorMap ImageTexture {
+          url [
+            "../textures/real_tag36h11_id0.png"
+          ]
+        }
         roughness 0.5
         metalness 0
         emissiveIntensity 0.2
       }
-      geometry Box { size 0.055 0.055 0.055 }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
     }
   ]
   name "apriltag_12"
 }
-
 DEF APRILTAG_13 Solid {
   translation 1.5 -0.8 0.0275
   rotation 0 0 1 2.5
   children [
     Shape {
       appearance PBRAppearance {
-        baseColorMap ImageTexture { url [ "../textures/real_tag36h11_id0.png" ] }
+        baseColorMap ImageTexture {
+          url [
+            "../textures/real_tag36h11_id0.png"
+          ]
+        }
         roughness 0.5
         metalness 0
         emissiveIntensity 0.2
       }
-      geometry Box { size 0.055 0.055 0.055 }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
     }
   ]
   name "apriltag_13"
 }
-
 DEF APRILTAG_14 Solid {
-  translation -1.5 1.0 0.0275
+  translation -1.5 1 0.0275
   rotation 0 0 1 0.8
   children [
     Shape {
       appearance PBRAppearance {
-        baseColorMap ImageTexture { url [ "../textures/real_tag36h11_id0.png" ] }
+        baseColorMap ImageTexture {
+          url [
+            "../textures/real_tag36h11_id0.png"
+          ]
+        }
         roughness 0.5
         metalness 0
         emissiveIntensity 0.2
       }
-      geometry Box { size 0.055 0.055 0.055 }
+      geometry Box {
+        size 0.055 0.055 0.055
+      }
     }
   ]
   name "apriltag_14"
 }
-
-# ---------------------- MULTI E-PUCK SETUP ----------------------
-
-# Robot 1
 E-puck {
   translation -1.5 0.5 0
   rotation 0 0 1 0.5
   name "EPuck_1"
   controller "apriltag_collector_depositor_multi"
   supervisor TRUE
+  camera_fieldOfView 1
   camera_width 640
   camera_height 480
-  camera_fieldOfView 1.0
 }
-
-# Robot 2 
 E-puck {
   translation 0.8 1.2 0
-  rotation 0 0 1 3.0
+  rotation 0 0 1 3
   name "EPuck_2"
   controller "apriltag_collector_depositor_multi"
   supervisor TRUE
+  camera_fieldOfView 1
   camera_width 640
   camera_height 480
-  camera_fieldOfView 1.0
 }
-
-# Robot 3 
 E-puck {
-  translation 1.0 -1.3 0
+  translation 1 -1.3 0
   rotation 0 0 1 1.2
   name "EPuck_3"
   controller "apriltag_collector_depositor_multi"
   supervisor TRUE
+  camera_fieldOfView 1
   camera_width 640
   camera_height 480
-  camera_fieldOfView 1.0
 }
